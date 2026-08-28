@@ -15,30 +15,30 @@ Production-grade, end-to-end DevOps project demonstrating modern cloud-native pr
 
 ```mermaid
 flowchart TD
-    subgraph 1. Local Development
-        Dev[Developer] -->|git push| GitHub[GitHub Repo: main / PR]
+    subgraph LocalDev ["1. Local Development"]
+        Dev["Developer"] -->|git push| GitHub["GitHub Repo: main / PR"]
     end
 
-    subgraph 2. CI/CD Pipeline (GitHub Actions)
-        GitHub --> Test[1. Jest Automated Unit Tests]
-        Test --> SecScan[2. Trivy Container Vulnerability Scan]
-        SecScan --> PushECR[3. Build & Push to Amazon ECR]
+    subgraph CICD ["2. CI/CD Pipeline (GitHub Actions)"]
+        GitHub --> Test["1. Jest Automated Unit Tests"]
+        Test --> SecScan["2. Trivy Container Vulnerability Scan"]
+        SecScan --> PushECR["3. Build & Push to Amazon ECR"]
     end
 
-    subgraph 3. Infrastructure as Code (Terraform)
-        TF[Terraform] --> VPC[Custom AWS VPC & Multi-AZ Subnets]
-        TF --> SG[Security Groups: 80, 3000, 22]
-        TF --> IAM[IAM Instance Role: ECR ReadOnly]
-        TF --> EC2[Free-Tier EC2 Instance]
+    subgraph IaC ["3. Infrastructure as Code (Terraform)"]
+        TF["Terraform"] --> VPC["Custom AWS VPC & Multi-AZ Subnets"]
+        TF --> SG["Security Groups: 80, 3000, 22"]
+        TF --> IAM["IAM Instance Role: ECR ReadOnly"]
+        TF --> EC2["Free-Tier EC2 Instance"]
     end
 
-    subgraph 4. Kubernetes Orchestration (K8s)
-        PushECR --> KubeDeploy[Kubernetes Deployment: 2 Replicas]
+    subgraph K8s ["4. Kubernetes Orchestration (K8s)"]
+        PushECR --> KubeDeploy["Kubernetes Deployment: 2 Replicas"]
         EC2 --> KubeDeploy
-        KubeDeploy --> Liveness[Liveness & Readiness Probes /healthz]
-        KubeDeploy --> HPA[Horizontal Pod Autoscaler]
-        KubeDeploy --> KubeService[LoadBalancer Service: Port 80]
-        KubeDeploy --> Postgres[PostgreSQL Pod & Persistent Volume]
+        KubeDeploy --> Liveness["Liveness & Readiness Probes /healthz"]
+        KubeDeploy --> HPA["Horizontal Pod Autoscaler"]
+        KubeDeploy --> KubeService["LoadBalancer Service: Port 80"]
+        KubeDeploy --> Postgres["PostgreSQL Pod & Persistent Volume"]
     end
 ```
 

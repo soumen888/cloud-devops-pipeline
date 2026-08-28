@@ -9,36 +9,36 @@ Build a production-grade, portfolio-ready DevOps project from scratch for intern
 
 ```mermaid
 flowchart TD
-    subgraph Local Dev & Version Control
-        Code[Source Code & Dockerfile] --> Git[GitHub Repository]
+    subgraph LocalDev ["Local Dev & Version Control"]
+        Code["Source Code & Dockerfile"] --> Git["GitHub Repository"]
     end
 
-    subgraph CI/CD (GitHub Actions)
-        Git --> Trigger[Push / Pull Request]
-        Trigger --> LintTest[1. Lint & Unit Tests]
-        LintTest --> DockerBuild[2. Multi-stage Docker Build]
-        DockerBuild --> SecScan[3. Security Scan with Trivy]
-        SecScan --> PushECR[4. Push Image to Amazon ECR]
+    subgraph CICD ["CI/CD (GitHub Actions)"]
+        Git --> Trigger["Push / Pull Request"]
+        Trigger --> LintTest["1. Lint & Unit Tests"]
+        LintTest --> DockerBuild["2. Multi-stage Docker Build"]
+        DockerBuild --> SecScan["3. Security Scan with Trivy"]
+        SecScan --> PushECR["4. Push Image to Amazon ECR"]
     end
 
-    subgraph Infrastructure as Code (Terraform)
-        TF[Terraform Scripts] --> S3[Remote State - S3 & DynamoDB]
-        TF --> VPC[AWS Custom VPC & Subnets]
-        TF --> Security[Security Groups & IAM Roles]
-        TF --> Compute[EKS / ECS / EC2 Compute]
+    subgraph IaC ["Infrastructure as Code (Terraform)"]
+        TF["Terraform Scripts"] --> S3["Remote State - S3 & DynamoDB"]
+        TF --> VPC["AWS Custom VPC & Subnets"]
+        TF --> Security["Security Groups & IAM Roles"]
+        TF --> Compute["EKS / ECS / EC2 Compute"]
     end
 
-    subgraph Deployment & Orchestration (Kubernetes)
-        PushECR --> KubeDeploy[Kubernetes Deployment]
+    subgraph K8s ["Deployment & Orchestration (Kubernetes)"]
+        PushECR --> KubeDeploy["Kubernetes Deployment"]
         Compute --> KubeDeploy
-        KubeDeploy --> Pods[App Pods with Rolling Updates]
-        Pods --> KubeService[ClusterIP / LoadBalancer Service]
-        KubeService --> User[End Users / Traffic]
+        KubeDeploy --> Pods["App Pods with Rolling Updates"]
+        Pods --> KubeService["ClusterIP / LoadBalancer Service"]
+        KubeService --> User["End Users / Traffic"]
     end
 
-    subgraph Observability (Optional Extension)
-        Pods -. Metrics .-> Prometheus[Prometheus]
-        Prometheus -. Visualize .-> Grafana[Grafana Dashboard]
+    subgraph Obs ["Observability (Optional Extension)"]
+        Pods -. Metrics .-> Prometheus["Prometheus"]
+        Prometheus -. Visualize .-> Grafana["Grafana Dashboard"]
     end
 ```
 
